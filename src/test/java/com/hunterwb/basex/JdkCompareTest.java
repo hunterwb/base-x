@@ -10,52 +10,46 @@ import java.util.Iterator;
 class JdkCompareTest {
 
     @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.Coders#provider36")
-    void one(BaseXCoder coder) {
+    @MethodSource("com.hunterwb.basex.Coders#ascii36")
+    void one(RadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength1();
         while (in.hasNext()) {
             byte[] dec0 = in.next();
-            String enc0 = coder.encodeToString(dec0);
-            Assertions.assertEquals(Integer.toString(dec0[0] & 0xFF, oneBase), enc0);
+            String enc0 = coder.encode(dec0);
+            Assertions.assertEquals(Integer.toString(dec0[0] & 0xFF, coder.base()), enc0);
             byte[] dec1 = coder.decode(enc0);
             Assertions.assertArrayEquals(dec0, dec1);
         }
-        oneBase++;
     }
-    private static int oneBase = 2;
 
     @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.Coders#provider36")
-    void two(BaseXCoder coder) {
+    @MethodSource("com.hunterwb.basex.Coders#ascii36")
+    void two(RadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength2();
         while (in.hasNext()) {
             byte[] dec0 = in.next();
             if (dec0[0] == 0) continue;
             int asInt = ((dec0[0] & 0xFF) << 8) | (dec0[1] & 0xFF);
-            String enc0 = coder.encodeToString(dec0);
-            Assertions.assertEquals(Integer.toString(asInt, twoBase), enc0);
+            String enc0 = coder.encode(dec0);
+            Assertions.assertEquals(Integer.toString(asInt, coder.base()), enc0);
             byte[] dec1 = coder.decode(enc0);
             Assertions.assertArrayEquals(dec0, dec1);
         }
-        twoBase++;
     }
-    private static int twoBase = 2;
 
     @Disabled
     @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.Coders#provider36")
-    void three(BaseXCoder coder) {
+    @MethodSource("com.hunterwb.basex.Coders#ascii36")
+    void three(RadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength3();
         while (in.hasNext()) {
             byte[] dec0 = in.next();
             if (dec0[0] == 0) continue;
             int asInt = ((dec0[0] & 0xFF) << 16) | ((dec0[1] & 0xFF) << 8) | (dec0[2] & 0xFF);
-            String enc0 = coder.encodeToString(dec0);
-            Assertions.assertEquals(Integer.toString(asInt, threeBase), enc0);
+            String enc0 = coder.encode(dec0);
+            Assertions.assertEquals(Integer.toString(asInt, coder.base()), enc0);
             byte[] dec1 = coder.decode(enc0);
             Assertions.assertArrayEquals(dec0, dec1);
         }
-        threeBase++;
     }
-    private static int threeBase = 2;
 }

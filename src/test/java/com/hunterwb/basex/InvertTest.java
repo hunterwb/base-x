@@ -10,14 +10,14 @@ import java.util.Iterator;
 class InvertTest {
 
     @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.Coders#provider128")
-    void zero(BaseXCoder coder) {
+    @MethodSource("com.hunterwb.basex.Coders#ascii128")
+    void zero(RadixCoder coder) {
         invert(coder, Bytes.EMPTY);
     }
 
     @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.Coders#provider128")
-    void one(BaseXCoder coder) {
+    @MethodSource("com.hunterwb.basex.Coders#ascii128")
+    void one(RadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength1();
         while (in.hasNext()) {
             invert(coder, in.next());
@@ -25,8 +25,8 @@ class InvertTest {
     }
 
     @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.Coders#provider128")
-    void two(BaseXCoder coder) {
+    @MethodSource("com.hunterwb.basex.Coders#ascii128")
+    void two(RadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength2();
         while (in.hasNext()) {
             invert(coder, in.next());
@@ -35,16 +35,16 @@ class InvertTest {
 
     @Disabled
     @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.Coders#provider128")
-    void three(BaseXCoder coder) {
+    @MethodSource("com.hunterwb.basex.Coders#ascii128")
+    void three(RadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength3();
         while (in.hasNext()) {
             invert(coder, in.next());
         }
     }
 
-    private void invert(BaseXCoder coder, byte[] dec0) {
-        byte[] enc0 = coder.encode(dec0);
+    private void invert(RadixCoder coder, byte[] dec0) {
+        String enc0 = coder.encode(dec0);
         byte[] dec1 = coder.decode(enc0);
         Assertions.assertArrayEquals(dec0, dec1);
     }
