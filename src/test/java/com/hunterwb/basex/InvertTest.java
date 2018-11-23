@@ -10,13 +10,13 @@ import java.util.Iterator;
 class InvertTest {
 
     @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.Coders#ascii128")
+    @MethodSource("com.hunterwb.basex.Coders#all")
     void zero(RadixCoder coder) {
         invert(coder, Bytes.EMPTY);
     }
 
     @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.Coders#ascii128")
+    @MethodSource("com.hunterwb.basex.Coders#all")
     void one(RadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength1();
         while (in.hasNext()) {
@@ -25,7 +25,7 @@ class InvertTest {
     }
 
     @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.Coders#ascii128")
+    @MethodSource("com.hunterwb.basex.Coders#all")
     void two(RadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength2();
         while (in.hasNext()) {
@@ -35,7 +35,7 @@ class InvertTest {
 
     @Disabled
     @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.Coders#ascii128")
+    @MethodSource("com.hunterwb.basex.Coders#big")
     void three(RadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength3();
         while (in.hasNext()) {
