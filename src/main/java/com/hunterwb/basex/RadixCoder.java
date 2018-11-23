@@ -95,11 +95,11 @@ public final class RadixCoder {
             for (int j = capacity - 1; j > i; j--) {
                 carry += (dst[j] & 0xFF) * base;
                 dst[j] = (byte) carry;
-                carry >>= Byte.SIZE;
+                carry >>>= Byte.SIZE;
             }
             while (carry > 0) {
                 dst[i--] = (byte) carry;
-                carry >>= Byte.SIZE;
+                carry >>>= Byte.SIZE;
             }
         }
         return drop(dst, i - zeroCount + 1);
@@ -112,26 +112,26 @@ public final class RadixCoder {
         return new String(bs, start, bs.length - start);
     }
 
-    private int dec(int codepoint) {
-        int decKey = Arrays.binarySearch(decKeys, codepoint);
+    private int dec(int codePoint) {
+        int decKey = Arrays.binarySearch(decKeys, codePoint);
         if (decKey == -1) throw new IllegalArgumentException();
         return decValues[decKey];
     }
 
-    private static int leadCount(String s, int b) {
+    private static int leadCount(String s, int codePoint) {
         int offset = 0;
         while (offset < s.length()) {
-            int codePoint = s.codePointAt(offset);
-            if (codePoint != b) break;
-            offset += Character.charCount(codePoint);
+            int cp = s.codePointAt(offset);
+            if (cp != codePoint) break;
+            offset += Character.charCount(cp);
         }
         return offset;
     }
 
     private static String repeat(int codePoint, int count) {
-        int[] bs = new int[count];
-        Arrays.fill(bs, codePoint);
-        return new String(bs, 0, bs.length);
+        int[] cps = new int[count];
+        Arrays.fill(cps, codePoint);
+        return new String(cps, 0, cps.length);
     }
 
     private static int ceilMultiply(int a, double factor) {

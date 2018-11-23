@@ -35,7 +35,7 @@ class InvertTest {
 
     @Disabled
     @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.Coders#big")
+    @MethodSource("com.hunterwb.basex.Coders#all")
     void three(RadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength3();
         while (in.hasNext()) {
