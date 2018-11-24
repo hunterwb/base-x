@@ -1,5 +1,7 @@
 # base-x
 
+[![Build Status](https://img.shields.io/circleci/project/github/hunterwb/base-x.svg)](https://circleci.com/gh/hunterwb/base-x)
+
 ## Example
 
 ```java
