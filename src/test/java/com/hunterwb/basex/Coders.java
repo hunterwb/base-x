@@ -19,7 +19,7 @@ public class Coders {
         return ASCII36_CODERS;
     }
 
-    static RadixCoder withBase(int base) {
+    public static RadixCoder withBase(int base) {
         int[] cps = new int[base];
         int cp = 0x4e00;
         for (int i = 0; i < base; i++) {

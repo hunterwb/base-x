@@ -1,20 +1,31 @@
 package com.hunterwb.basex;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
 class InvertRandomTest {
 
-    private static final Random random = new Random(3);
+    @Test
+    void small() {
+        Random random = new Random(4);
+        for (int i = 0; i < 100000; i++) {
+            RadixCoder coder = Coders.withBase(2 + random.nextInt(256));
+            byte[] dec0 = new byte[2 + random.nextInt(64)];
+            random.nextBytes(dec0);
+            String enc0 = coder.encode(dec0);
+            byte[] dec1 = coder.decode(enc0);
+            Assertions.assertArrayEquals(dec0, dec1);
+        }
+    }
 
-    @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.Coders#all")
-    void test(RadixCoder coder) {
-        byte[] dec0 = new byte[100];
-        for (int i = 0; i < 100; i++) {
+    @Test
+    void big() {
+        Random random = new Random(5);
+        for (int i = 0; i < 200; i++) {
+            RadixCoder coder = Coders.withBase(2 + random.nextInt(256));
+            byte[] dec0 = new byte[64 + random.nextInt(2000)];
             random.nextBytes(dec0);
             String enc0 = coder.encode(dec0);
             byte[] dec1 = coder.decode(enc0);
