@@ -113,7 +113,7 @@ public final class RadixCoder {
 
     private int dec(int codePoint) {
         int decKey = Arrays.binarySearch(decKeys, codePoint);
-        if (decKey == -1) throw new IllegalArgumentException();
+        if (decKey < 0) throw new IllegalArgumentException("Illegal character: " + codePoint);
         return decValues[decKey];
     }
 
