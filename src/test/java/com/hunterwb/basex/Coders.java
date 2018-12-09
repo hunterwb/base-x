@@ -7,7 +7,7 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 public class Coders {
 
-    private static final List<RadixCoder> ASCII36_CODERS = new ArrayList<RadixCoder>();
+    private static final List<RadixCoder<String>> ASCII36_CODERS = new ArrayList<RadixCoder<String>>();
     static {
         String table = "0123456789abcdefghijklmnopqrstuvwxyz";
         for (int i = 2; i <= table.length(); i++) {
@@ -15,11 +15,11 @@ public class Coders {
         }
     }
 
-    public static List<RadixCoder> ascii36() {
+    public static List<RadixCoder<String>> ascii36() {
         return ASCII36_CODERS;
     }
 
-    public static RadixCoder withBase(int base) {
+    public static RadixCoder<String> withBase(int base) {
         int[] cps = new int[base];
         int cp = 0x4e00;
         for (int i = 0; i < base; i++) {
@@ -29,7 +29,7 @@ public class Coders {
         return RadixCoder.of(table);
     }
 
-    private static final List<RadixCoder> ALL = new ArrayList<RadixCoder>();
+    private static final List<RadixCoder<String>> ALL = new ArrayList<RadixCoder<String>>();
     static {
         List<Integer> bases = new ArrayList<Integer>();
         for (int i = 2; i <= 128; i++) {
@@ -44,7 +44,7 @@ public class Coders {
         }
     }
 
-    public static List<RadixCoder> all() {
+    public static List<RadixCoder<String>> all() {
         return ALL;
     }
 }

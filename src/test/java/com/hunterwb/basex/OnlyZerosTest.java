@@ -8,7 +8,7 @@ class OnlyZerosTest {
 
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.Coders#all")
-    void test(RadixCoder coder) {
+    void test(RadixCoder<String> coder) {
         for (int i = 3; i <= 512; i++) {
             byte[] dec0 = new byte[i];
             String enc0 = coder.encode(dec0);
