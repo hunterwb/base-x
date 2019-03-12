@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
-public class Coders {
+public class AsciiRadixCoders {
 
     private static final List<AsciiRadixCoder> ASCII36_CODERS = new ArrayList<AsciiRadixCoder>();
     static {
