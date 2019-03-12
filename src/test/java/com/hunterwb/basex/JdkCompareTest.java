@@ -11,7 +11,7 @@ class JdkCompareTest {
 
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.Coders#ascii36")
-    void one(RadixCoder<String> coder) {
+    void one(AsciiRadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength1();
         while (in.hasNext()) {
             byte[] dec0 = in.next();
@@ -24,7 +24,7 @@ class JdkCompareTest {
 
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.Coders#ascii36")
-    void two(RadixCoder<String> coder) {
+    void two(AsciiRadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength2();
         while (in.hasNext()) {
             byte[] dec0 = in.next();
@@ -40,7 +40,7 @@ class JdkCompareTest {
     @Disabled
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.Coders#ascii36")
-    void three(RadixCoder<String> coder) {
+    void three(AsciiRadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength3();
         while (in.hasNext()) {
             byte[] dec0 = in.next();

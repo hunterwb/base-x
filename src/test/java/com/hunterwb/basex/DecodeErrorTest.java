@@ -7,6 +7,6 @@ class DecodeErrorTest {
 
     @Test
     void invalidCharacter() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.of("01").decode("011100X01101"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> AsciiRadixCoder.of("01").decode("011100X01101"));
     }
 }

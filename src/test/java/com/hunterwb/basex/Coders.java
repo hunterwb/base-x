@@ -1,50 +1,39 @@
 package com.hunterwb.basex;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class Coders {
 
-    private static final List<RadixCoder<String>> ASCII36_CODERS = new ArrayList<RadixCoder<String>>();
+    private static final List<AsciiRadixCoder> ASCII36_CODERS = new ArrayList<AsciiRadixCoder>();
     static {
         String table = "0123456789abcdefghijklmnopqrstuvwxyz";
         for (int i = 2; i <= table.length(); i++) {
-            ASCII36_CODERS.add(RadixCoder.of(table.substring(0, i)));
+            ASCII36_CODERS.add(AsciiRadixCoder.of(table.substring(0, i)));
         }
     }
 
-    public static List<RadixCoder<String>> ascii36() {
+    public static List<AsciiRadixCoder> ascii36() {
         return ASCII36_CODERS;
     }
 
-    public static RadixCoder<String> withBase(int base) {
-        int[] cps = new int[base];
-        int cp = 0x4e00;
+    public static AsciiRadixCoder withBase(int base) {
+        byte[] cs = new byte[base];
         for (int i = 0; i < base; i++) {
-            cps[i] = cp++;
+            cs[i] = (byte) i;
         }
-        String table = new String(cps, 0, cps.length);
-        return RadixCoder.of(table);
+        return AsciiRadixCoder.of(new String(cs, 0));
     }
 
-    private static final List<RadixCoder<String>> ALL = new ArrayList<RadixCoder<String>>();
+    private static final List<AsciiRadixCoder> ALL = new ArrayList<AsciiRadixCoder>();
     static {
-        List<Integer> bases = new ArrayList<Integer>();
         for (int i = 2; i <= 128; i++) {
-            bases.add(i);
-        }
-        Collections.addAll(
-                bases,
-                200,255,256,257,500,510,511,512,512,999,1000,1001,1023,1024,1025,2000,3000,4000,5000,10000
-        );
-        for (int base : bases) {
-            ALL.add(withBase(base));
+            ALL.add(withBase(i));
         }
     }
 
-    public static List<RadixCoder<String>> all() {
+    public static List<AsciiRadixCoder> all() {
         return ALL;
     }
 }

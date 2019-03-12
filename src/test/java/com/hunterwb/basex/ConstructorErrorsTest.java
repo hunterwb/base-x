@@ -7,16 +7,16 @@ class ConstructorErrorsTest {
 
     @Test
     void empty() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.of(""));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> AsciiRadixCoder.of(""));
     }
 
     @Test
     void oneCharacter() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.of("A"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> AsciiRadixCoder.of("A"));
     }
 
     @Test
     void repeatedCharacter() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.of("01234567890"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> AsciiRadixCoder.of("01234567890"));
     }
 }

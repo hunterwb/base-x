@@ -11,13 +11,13 @@ class InvertTest {
 
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.Coders#all")
-    void zero(RadixCoder<String> coder) {
+    void zero(AsciiRadixCoder coder) {
         invert(coder, Bytes.EMPTY);
     }
 
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.Coders#all")
-    void one(RadixCoder<String> coder) {
+    void one(AsciiRadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength1();
         while (in.hasNext()) {
             invert(coder, in.next());
@@ -26,7 +26,7 @@ class InvertTest {
 
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.Coders#all")
-    void two(RadixCoder<String> coder) {
+    void two(AsciiRadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength2();
         while (in.hasNext()) {
             invert(coder, in.next());
@@ -36,14 +36,14 @@ class InvertTest {
     @Disabled
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.Coders#all")
-    void three(RadixCoder<String> coder) {
+    void three(AsciiRadixCoder coder) {
         Iterator<byte[]> in = Bytes.allLength3();
         while (in.hasNext()) {
             invert(coder, in.next());
         }
     }
 
-    private void invert(RadixCoder<String> coder, byte[] dec0) {
+    private void invert(AsciiRadixCoder coder, byte[] dec0) {
         String enc0 = coder.encode(dec0);
         byte[] dec1 = coder.decode(enc0);
         Assertions.assertArrayEquals(dec0, dec1);

@@ -10,8 +10,8 @@ class EqualsTest {
     @ParameterizedTest
     @ValueSource(strings = {"01","012","0123","ABC","0123456789"})
     void equals(String table) {
-        RadixCoder a = RadixCoder.of(table);
-        RadixCoder b = RadixCoder.of(table);
+        AsciiRadixCoder a = AsciiRadixCoder.of(table);
+        AsciiRadixCoder b = AsciiRadixCoder.of(table);
         Assertions.assertEquals(a, b);
         Assertions.assertEquals(a.hashCode(), b.hashCode());
     }
@@ -24,8 +24,8 @@ class EqualsTest {
             "01, 10"
     })
     void notEquals(String table1, String table2) {
-        RadixCoder a = RadixCoder.of(table1);
-        RadixCoder b = RadixCoder.of(table2);
+        AsciiRadixCoder a = AsciiRadixCoder.of(table1);
+        AsciiRadixCoder b = AsciiRadixCoder.of(table2);
         Assertions.assertNotEquals(a, b);
     }
 }
