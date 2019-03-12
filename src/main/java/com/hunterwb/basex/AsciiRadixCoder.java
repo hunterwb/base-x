@@ -9,7 +9,7 @@ public final class AsciiRadixCoder {
 
     private final byte[] digits;
 
-    private final RadixCoder<byte[]> radixCoder;
+    private final RadixCoder<byte[]> byteCoder;
 
     private AsciiRadixCoder(String alphabet) {
         chars = new byte[alphabet.length()];
@@ -21,7 +21,7 @@ public final class AsciiRadixCoder {
             if (digits[c] != -1) throw new IllegalArgumentException("char '" + (char) c + "' is repeated in alphabet");
             digits[c] = (byte) i;
         }
-        radixCoder = RadixCoder.of((byte) chars.length);
+        byteCoder = RadixCoder.of((byte) chars.length);
     }
 
     public static AsciiRadixCoder of(String alphabet) {
@@ -37,7 +37,7 @@ public final class AsciiRadixCoder {
     }
 
     public String encode(byte[] src) {
-        byte[] bs = radixCoder.encode(src);
+        byte[] bs = byteCoder.encode(src);
         for (int i = 0; i < bs.length; i++) {
             bs[i] = chars[bs[i]];
         }
@@ -52,7 +52,7 @@ public final class AsciiRadixCoder {
             if (digit == -1) throw new IllegalArgumentException("char '" + (char) c + "' is not present in alphabet");
             bs[i] = digit;
         }
-        return radixCoder.decode(bs);
+        return byteCoder.decode(bs);
     }
 
     private static byte checkAscii(char c) {
