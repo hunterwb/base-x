@@ -52,20 +52,20 @@ public abstract class RadixCoder<A> {
             if (zeroCount == src.length) return new byte[src.length];
             int capacity = zeroCount + ceilMultiply(src.length - zeroCount, encodeFactor);
             byte[] dst = new byte[capacity];
-            int i = capacity - 2;
-            for (int b = zeroCount; b < src.length; b++) {
-                int carry = src[b] & 0xFF;
-                for (int j = capacity - 1; j > i; j--) {
-                    carry += (dst[j] & 0xFF) << Byte.SIZE;
-                    dst[j] = (byte) (carry % base);
+            int j = capacity - 2;
+            for (int i = zeroCount; i < src.length; i++) {
+                int carry = src[i] & 0xFF;
+                for (int k = capacity - 1; k > j; k--) {
+                    carry += (dst[k] & 0xFF) << Byte.SIZE;
+                    dst[k] = (byte) (carry % base);
                     carry /= base;
                 }
                 while (carry > 0) {
-                    dst[i--] = (byte) (carry % base);
+                    dst[j--] = (byte) (carry % base);
                     carry /= base;
                 }
             }
-            return drop(dst, i - zeroCount + 1);
+            return drop(dst, j - zeroCount + 1);
         }
 
         @Override
@@ -74,20 +74,20 @@ public abstract class RadixCoder<A> {
             if (zeroCount == src.length) return new byte[src.length];
             int capacity = zeroCount + ceilMultiply(src.length - zeroCount, decodeFactor);
             byte[] dst = new byte[capacity];
-            int i = capacity - 2;
-            for (int b = zeroCount; b < src.length; b++) {
-                int carry = src[b] & 0xFF;
-                for (int j = capacity - 1; j > i; j--) {
-                    carry += (dst[j] & 0xFF) * base;
-                    dst[j] = (byte) carry;
+            int j = capacity - 2;
+            for (int i = zeroCount; i < src.length; i++) {
+                int carry = src[i] & 0xFF;
+                for (int k = capacity - 1; k > j; k--) {
+                    carry += (dst[k] & 0xFF) * base;
+                    dst[k] = (byte) carry;
                     carry >>>= Byte.SIZE;
                 }
                 while (carry > 0) {
-                    dst[i--] = (byte) carry;
+                    dst[j--] = (byte) carry;
                     carry >>>= Byte.SIZE;
                 }
             }
-            return drop(dst, i - zeroCount + 1);
+            return drop(dst, j - zeroCount + 1);
         }
 
         @Override
@@ -116,20 +116,20 @@ public abstract class RadixCoder<A> {
             if (zeroCount == src.length) return new short[src.length];
             int capacity = zeroCount + ceilMultiply(src.length - zeroCount, encodeFactor);
             short[] dst = new short[capacity];
-            int i = capacity - 2;
-            for (int b = zeroCount; b < src.length; b++) {
-                int carry = src[b] & 0xFF;
-                for (int j = capacity - 1; j > i; j--) {
-                    carry += (dst[j] & 0xFFFF) << Byte.SIZE;
-                    dst[j] = (short) (carry % base);
+            int j = capacity - 2;
+            for (int i = zeroCount; i < src.length; i++) {
+                int carry = src[i] & 0xFF;
+                for (int k = capacity - 1; k > j; k--) {
+                    carry += (dst[k] & 0xFFFF) << Byte.SIZE;
+                    dst[k] = (short) (carry % base);
                     carry /= base;
                 }
                 while (carry > 0) {
-                    dst[i--] = (short) (carry % base);
+                    dst[j--] = (short) (carry % base);
                     carry /= base;
                 }
             }
-            return drop(dst, i - zeroCount + 1);
+            return drop(dst, j - zeroCount + 1);
         }
 
         @Override
@@ -138,20 +138,20 @@ public abstract class RadixCoder<A> {
             if (zeroCount == src.length) return new byte[src.length];
             int capacity = zeroCount + ceilMultiply(src.length - zeroCount, decodeFactor);
             byte[] dst = new byte[capacity];
-            int i = capacity - 2;
-            for (int b = zeroCount; b < src.length; b ++) {
-                int carry = src[b] & 0xFFFF;
-                for (int j = capacity - 1; j > i; j--) {
-                    carry += (dst[j] & 0xFF) * base;
-                    dst[j] = (byte) carry;
+            int j = capacity - 2;
+            for (int i = zeroCount; i < src.length; i++) {
+                int carry = src[i] & 0xFFFF;
+                for (int k = capacity - 1; k > j; k--) {
+                    carry += (dst[k] & 0xFF) * base;
+                    dst[k] = (byte) carry;
                     carry >>>= Byte.SIZE;
                 }
                 while (carry > 0) {
-                    dst[i--] = (byte) carry;
+                    dst[j--] = (byte) carry;
                     carry >>>= Byte.SIZE;
                 }
             }
-            return drop(dst, i - zeroCount + 1);
+            return drop(dst, j - zeroCount + 1);
         }
 
         @Override
