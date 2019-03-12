@@ -48,7 +48,6 @@ public abstract class RadixCoder<A> {
 
         @Override
         public byte[] encode(byte[] src) {
-            if (src.length == 0) return new byte[0];
             int zeroCount = leadingZeros(src);
             if (zeroCount == src.length) return new byte[src.length];
             int capacity = zeroCount + ceilMultiply(src.length - zeroCount, encodeFactor);
@@ -71,7 +70,6 @@ public abstract class RadixCoder<A> {
 
         @Override
         public byte[] decode(byte[] src) {
-            if (src.length == 0) return new byte[0];
             int zeroCount = leadingZeros(src);
             if (zeroCount == src.length) return new byte[src.length];
             int capacity = zeroCount + ceilMultiply(src.length - zeroCount, decodeFactor);
@@ -114,7 +112,6 @@ public abstract class RadixCoder<A> {
 
         @Override
         public short[] encode(byte[] src) {
-            if (src.length == 0) return new short[0];
             int zeroCount = leadingZeros(src);
             if (zeroCount == src.length) return new short[src.length];
             int capacity = zeroCount + ceilMultiply(src.length - zeroCount, encodeFactor);
@@ -137,7 +134,6 @@ public abstract class RadixCoder<A> {
 
         @Override
         public byte[] decode(short[] src) {
-            if (src.length == 0) return new byte[0];
             int zeroCount = leadingZeros(src);
             if (zeroCount == src.length) return new byte[src.length];
             int capacity = zeroCount + ceilMultiply(src.length - zeroCount, decodeFactor);
