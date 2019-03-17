@@ -3,11 +3,9 @@
 [![Build Status](https://img.shields.io/circleci/project/github/hunterwb/base-x.svg)](https://circleci.com/gh/hunterwb/base-x)
 
 Encodes a byte array by treating it as a single large unsigned
-integer (similar to [BigInteger](https://docs.oracle.com/javase/8/docs/api/java/math/BigInteger.html))
-and performing long division to convert it to its representation in the new base.
+integer and performing long division to convert it to its representation in the new base.
 Every leading 0 byte in the array (not significant when treated as a number)
 is encoded as the first character of the new base's alphabet.
-
 This allows conversion to any base but is not RFC3548 or standard base 16/32/64 compliant.
 
 ## Example
