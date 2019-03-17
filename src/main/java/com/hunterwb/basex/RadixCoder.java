@@ -19,11 +19,11 @@ public abstract class RadixCoder<A> {
         decodeFactor = logBase / logByte;
     }
 
-    public static RadixCoder<byte[]> of(byte base) {
+    public static RadixCoder<byte[]> bytes(int base) {
         return new Bytes(base);
     }
 
-    public static RadixCoder<short[]> of(short base) {
+    public static RadixCoder<short[]> shorts(int base) {
         return new Shorts(base);
     }
 
@@ -42,8 +42,9 @@ public abstract class RadixCoder<A> {
 
     static final class Bytes extends RadixCoder<byte[]> {
 
-        Bytes(byte base) {
-            super(base & 0xFF);
+        Bytes(int base) {
+            super(base);
+            if (base > 0x100) throw new IllegalArgumentException("base must be <= 0x100)");
         }
 
         @Override
@@ -106,8 +107,9 @@ public abstract class RadixCoder<A> {
 
     static final class Shorts extends RadixCoder<short[]> {
 
-        Shorts(short base) {
-            super(base & 0xFFFF);
+        Shorts(int base) {
+            super(base);
+            if (base > 0x10000) throw new IllegalArgumentException("base must be <= 0x10000)");
         }
 
         @Override

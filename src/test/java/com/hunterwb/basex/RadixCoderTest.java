@@ -11,14 +11,20 @@ public class RadixCoderTest {
 
     @Test
     void zeroConstructor() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.of((byte) 0));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.of((short) 0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.bytes(0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.shorts(0));
     }
 
     @Test
     void oneConstructor() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.of((byte) 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.of((short) 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.bytes(1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.shorts(1));
+    }
+
+    @Test
+    void tooBigConstructor() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.bytes(0x101));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.shorts(0x10001));
     }
 
     @ParameterizedTest
@@ -35,8 +41,8 @@ public class RadixCoderTest {
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 200, 255})
     void equalsBytes(int base) {
-        RadixCoder a = RadixCoder.of((byte) base);
-        RadixCoder b = RadixCoder.of((byte) base);
+        RadixCoder a = RadixCoder.bytes(base);
+        RadixCoder b = RadixCoder.bytes(base);
         Assertions.assertEquals(a, b);
         Assertions.assertEquals(a.hashCode(), b.hashCode());
     }
@@ -44,8 +50,8 @@ public class RadixCoderTest {
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 2000, 50000})
     void equalsShorts(int base) {
-        RadixCoder a = RadixCoder.of((short) base);
-        RadixCoder b = RadixCoder.of((short) base);
+        RadixCoder a = RadixCoder.shorts(base);
+        RadixCoder b = RadixCoder.shorts(base);
         Assertions.assertEquals(a, b);
         Assertions.assertEquals(a.hashCode(), b.hashCode());
     }
@@ -58,8 +64,8 @@ public class RadixCoderTest {
             "2, 254"
     })
     void notEqualsBytes(int base1, int base2) {
-        RadixCoder a = RadixCoder.of((byte) base1);
-        RadixCoder b = RadixCoder.of((byte) base2);
+        RadixCoder a = RadixCoder.bytes(base1);
+        RadixCoder b = RadixCoder.bytes(base2);
         Assertions.assertNotEquals(a, b);
     }
 
@@ -71,8 +77,8 @@ public class RadixCoderTest {
             "2, 30000"
     })
     void notEqualsShorts(int base1, int base2) {
-        RadixCoder a = RadixCoder.of((short) base1);
-        RadixCoder b = RadixCoder.of((short) base2);
+        RadixCoder a = RadixCoder.shorts(base1);
+        RadixCoder b = RadixCoder.shorts(base2);
         Assertions.assertNotEquals(a, b);
     }
 }
