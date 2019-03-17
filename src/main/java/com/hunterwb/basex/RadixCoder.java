@@ -14,7 +14,7 @@ public abstract class RadixCoder<A> {
         if (base < 2) throw new IllegalArgumentException("base must be >= 2");
         this.base = base;
         double logBase = Math.log(base);
-        double logByte = Math.log(1 << Byte.SIZE);
+        double logByte = Math.log(0x100);
         encodeFactor = logByte / logBase;
         decodeFactor = logBase / logByte;
     }
@@ -78,6 +78,7 @@ public abstract class RadixCoder<A> {
             int j = capacity - 2;
             for (int i = zeroCount; i < src.length; i++) {
                 int carry = src[i] & 0xFF;
+                if (carry >= base) throw new IllegalArgumentException("elements must be < " + base);
                 for (int k = capacity - 1; k > j; k--) {
                     carry += (dst[k] & 0xFF) * base;
                     dst[k] = (byte) carry;
@@ -143,6 +144,7 @@ public abstract class RadixCoder<A> {
             int j = capacity - 2;
             for (int i = zeroCount; i < src.length; i++) {
                 int carry = src[i] & 0xFFFF;
+                if (carry >= base) throw new IllegalArgumentException("elements must be < " + base);
                 for (int k = capacity - 1; k > j; k--) {
                     carry += (dst[k] & 0xFF) * base;
                     dst[k] = (byte) carry;

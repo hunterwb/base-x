@@ -27,6 +27,14 @@ public class RadixCoderTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.shorts(0x10001));
     }
 
+    @Test
+    void decodeOutOfRange() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.bytes(64).decode(new byte[]{64}));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.bytes(200).decode(new byte[]{-1}));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.shorts(64).decode(new short[]{64}));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.shorts(30000).decode(new short[]{-1}));
+    }
+
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.RadixCoders#bytes")
     void encodeZerosBytes(RadixCoder<byte[]> coder) {
