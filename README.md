@@ -1,6 +1,6 @@
-# base-x
+# base-x [![Build Status](https://img.shields.io/circleci/project/github/hunterwb/base-x.svg)](https://circleci.com/gh/hunterwb/base-x)
 
-[![Build Status](https://img.shields.io/circleci/project/github/hunterwb/base-x.svg)](https://circleci.com/gh/hunterwb/base-x)
+Arbitrary base encoding & decoding
 
 Encodes a byte array by treating it as a single large unsigned
 integer and performing long division to convert it to its representation in the new base.
