@@ -35,8 +35,7 @@ public abstract class RadixCoder<A> {
 
     public abstract byte[] decode(A src);
 
-    @Override
-    public final int hashCode() {
+    @Override public final int hashCode() {
         return base;
     }
 
@@ -47,8 +46,7 @@ public abstract class RadixCoder<A> {
             if (base > 0x100) throw new IllegalArgumentException("base must be <= 0x100)");
         }
 
-        @Override
-        public byte[] encode(byte[] src) {
+        @Override public byte[] encode(byte[] src) {
             int zeroCount = leadingZeros(src);
             if (zeroCount == src.length) return new byte[src.length];
             int capacity = zeroCount + ceilMultiply(src.length - zeroCount, encodeFactor);
@@ -69,8 +67,7 @@ public abstract class RadixCoder<A> {
             return drop(dst, j - zeroCount + 1);
         }
 
-        @Override
-        public byte[] decode(byte[] src) {
+        @Override public byte[] decode(byte[] src) {
             int zeroCount = leadingZeros(src);
             if (zeroCount == src.length) return new byte[src.length];
             int capacity = zeroCount + ceilMultiply(src.length - zeroCount, decodeFactor);
@@ -92,16 +89,14 @@ public abstract class RadixCoder<A> {
             return drop(dst, j - zeroCount + 1);
         }
 
-        @Override
-        public boolean equals(Object o) {
+        @Override public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof Bytes)) return false;
             Bytes other = (Bytes) o;
             return base == other.base;
         }
 
-        @Override
-        public String toString() {
+        @Override public String toString() {
             return "RadixCoder.Bytes(" + base + ')';
         }
     }
@@ -113,8 +108,7 @@ public abstract class RadixCoder<A> {
             if (base > 0x10000) throw new IllegalArgumentException("base must be <= 0x10000)");
         }
 
-        @Override
-        public short[] encode(byte[] src) {
+        @Override public short[] encode(byte[] src) {
             int zeroCount = leadingZeros(src);
             if (zeroCount == src.length) return new short[src.length];
             int capacity = zeroCount + ceilMultiply(src.length - zeroCount, encodeFactor);
@@ -135,8 +129,7 @@ public abstract class RadixCoder<A> {
             return drop(dst, j - zeroCount + 1);
         }
 
-        @Override
-        public byte[] decode(short[] src) {
+        @Override public byte[] decode(short[] src) {
             int zeroCount = leadingZeros(src);
             if (zeroCount == src.length) return new byte[src.length];
             int capacity = zeroCount + ceilMultiply(src.length - zeroCount, decodeFactor);
@@ -158,16 +151,14 @@ public abstract class RadixCoder<A> {
             return drop(dst, j - zeroCount + 1);
         }
 
-        @Override
-        public boolean equals(Object o) {
+        @Override public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof Shorts)) return false;
             Shorts other = (Shorts) o;
             return base == other.base;
         }
 
-        @Override
-        public String toString() {
+        @Override public String toString() {
             return "RadixCoder.Shorts(" + base + ')';
         }
     }

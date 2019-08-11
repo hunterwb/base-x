@@ -60,21 +60,18 @@ public final class AsciiRadixCoder {
         return (byte) c;
     }
 
-    @Override
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AsciiRadixCoder)) return false;
         AsciiRadixCoder other = (AsciiRadixCoder) o;
         return Arrays.equals(chars, other.chars);
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         return Arrays.hashCode(chars);
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return "AsciiRadixCoder(" + alphabet() + ')';
     }
 }

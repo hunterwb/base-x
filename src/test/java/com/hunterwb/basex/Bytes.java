@@ -12,13 +12,11 @@ public class Bytes {
 
             private final ByteBuffer buf = ByteBuffer.allocate(1).put(0, Byte.MIN_VALUE);
 
-            @Override
-            public boolean hasNext() {
+            @Override public boolean hasNext() {
                 return buf.get(0) != Byte.MAX_VALUE;
             }
 
-            @Override
-            public byte[] next() {
+            @Override public byte[] next() {
                 return buf.put(0, (byte) (buf.get(0) + 1)).array();
             }
 
@@ -31,13 +29,11 @@ public class Bytes {
 
             private final ByteBuffer buf = ByteBuffer.allocate(2).putShort(0, Short.MIN_VALUE);
 
-            @Override
-            public boolean hasNext() {
+            @Override public boolean hasNext() {
                 return buf.getShort(0) != Short.MAX_VALUE;
             }
 
-            @Override
-            public byte[] next() {
+            @Override public byte[] next() {
                 return buf.putShort(0, (short) (buf.getShort(0) + 1)).array();
             }
 
@@ -61,13 +57,11 @@ public class Bytes {
                 return buf.putShort(0, (short) (value >> 8)).put(2, (byte) value);
             }
 
-            @Override
-            public boolean hasNext() {
+            @Override public boolean hasNext() {
                 return getMedium() != 0x7FFFFF;
             }
 
-            @Override
-            public byte[] next() {
+            @Override public byte[] next() {
                 return putMedium(getMedium() + 1).array();
             }
 
