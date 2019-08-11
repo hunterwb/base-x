@@ -1,4 +1,4 @@
-# base-x [![Build Status](https://img.shields.io/circleci/project/github/hunterwb/base-x.svg)](https://circleci.com/gh/hunterwb/base-x)
+# base-x [![](https://jitci.com/gh/hunterwb/base-x/svg)](https://jitci.com/gh/hunterwb/base-x)
 
 Arbitrary base encoding & decoding
 
