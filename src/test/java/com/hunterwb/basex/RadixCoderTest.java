@@ -50,6 +50,7 @@ public class RadixCoderTest {
     @ValueSource(ints = {2, 3, 200, 255})
     void equalsBytes(int base) {
         RadixCoder a = RadixCoder.bytes(base);
+        Assertions.assertEquals(a, a);
         RadixCoder b = RadixCoder.bytes(base);
         Assertions.assertEquals(a, b);
         Assertions.assertEquals(a.hashCode(), b.hashCode());
@@ -59,6 +60,7 @@ public class RadixCoderTest {
     @ValueSource(ints = {2, 3, 2000, 50000})
     void equalsShorts(int base) {
         RadixCoder a = RadixCoder.shorts(base);
+        Assertions.assertEquals(a, a);
         RadixCoder b = RadixCoder.shorts(base);
         Assertions.assertEquals(a, b);
         Assertions.assertEquals(a.hashCode(), b.hashCode());
@@ -88,5 +90,11 @@ public class RadixCoderTest {
         RadixCoder a = RadixCoder.shorts(base1);
         RadixCoder b = RadixCoder.shorts(base2);
         Assertions.assertNotEquals(a, b);
+    }
+
+    @Test
+    void notEqualsNull() {
+        Assertions.assertNotEquals(RadixCoder.shorts(5), null);
+        Assertions.assertNotEquals(RadixCoder.bytes(5), null);
     }
 }

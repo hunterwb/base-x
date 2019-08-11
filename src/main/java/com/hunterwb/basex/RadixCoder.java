@@ -39,6 +39,16 @@ public abstract class RadixCoder<A> {
         return base;
     }
 
+    @Override public final boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        return base == ((RadixCoder) obj).base;
+    }
+
+    @Override final public String toString() {
+        return getClass().getName() + '(' + base + ')';
+    }
+
     static final class Bytes extends RadixCoder<byte[]> {
 
         Bytes(int base) {
@@ -87,17 +97,6 @@ public abstract class RadixCoder<A> {
                 }
             }
             return drop(dst, j - zeroCount + 1);
-        }
-
-        @Override public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Bytes)) return false;
-            Bytes other = (Bytes) o;
-            return base == other.base;
-        }
-
-        @Override public String toString() {
-            return "RadixCoder.Bytes(" + base + ')';
         }
     }
 
@@ -149,17 +148,6 @@ public abstract class RadixCoder<A> {
                 }
             }
             return drop(dst, j - zeroCount + 1);
-        }
-
-        @Override public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Shorts)) return false;
-            Shorts other = (Shorts) o;
-            return base == other.base;
-        }
-
-        @Override public String toString() {
-            return "RadixCoder.Shorts(" + base + ')';
         }
     }
 
