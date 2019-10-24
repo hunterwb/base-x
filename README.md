@@ -1,4 +1,4 @@
-# base-x [![](https://jitci.com/gh/hunterwb/base-x/svg)](https://jitci.com/gh/hunterwb/base-x)
+# base-x [![](https://jitpack.io/v/com.hunterwb/base-x.svg)](https://jitpack.io/#com.hunterwb/base-x) [![](https://jitci.com/gh/hunterwb/base-x/svg)](https://jitci.com/gh/hunterwb/base-x)
 
 Arbitrary base encoding & decoding
 
