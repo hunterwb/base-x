@@ -11,28 +11,28 @@ public class RadixCoderTest {
 
     @Test
     void zeroConstructor() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.bytes(0));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.shorts(0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.u8(0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.u16(0));
     }
 
     @Test
     void oneConstructor() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.bytes(1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.shorts(1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.u8(1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.u16(1));
     }
 
     @Test
     void tooBigConstructor() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.bytes(0x101));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.shorts(0x10001));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.u8(0x101));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.u16(0x10001));
     }
 
     @Test
     void decodeOutOfRange() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.bytes(64).decode(new byte[]{64}));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.bytes(200).decode(new byte[]{-1}));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.shorts(64).decode(new short[]{64}));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.shorts(30000).decode(new short[]{-1}));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.u8(64).decode(new byte[]{64}));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.u8(200).decode(new byte[]{-1}));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.u16(64).decode(new short[]{64}));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RadixCoder.u16(30000).decode(new short[]{-1}));
     }
 
     @ParameterizedTest
@@ -49,9 +49,9 @@ public class RadixCoderTest {
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 200, 255})
     void equalsBytes(int base) {
-        RadixCoder a = RadixCoder.bytes(base);
+        RadixCoder a = RadixCoder.u8(base);
         Assertions.assertEquals(a, a);
-        RadixCoder b = RadixCoder.bytes(base);
+        RadixCoder b = RadixCoder.u8(base);
         Assertions.assertEquals(a, b);
         Assertions.assertEquals(a.hashCode(), b.hashCode());
     }
@@ -59,9 +59,9 @@ public class RadixCoderTest {
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 2000, 50000})
     void equalsShorts(int base) {
-        RadixCoder a = RadixCoder.shorts(base);
+        RadixCoder a = RadixCoder.u16(base);
         Assertions.assertEquals(a, a);
-        RadixCoder b = RadixCoder.shorts(base);
+        RadixCoder b = RadixCoder.u16(base);
         Assertions.assertEquals(a, b);
         Assertions.assertEquals(a.hashCode(), b.hashCode());
     }
@@ -74,8 +74,8 @@ public class RadixCoderTest {
             "2, 254"
     })
     void notEqualsBytes(int base1, int base2) {
-        RadixCoder a = RadixCoder.bytes(base1);
-        RadixCoder b = RadixCoder.bytes(base2);
+        RadixCoder a = RadixCoder.u8(base1);
+        RadixCoder b = RadixCoder.u8(base2);
         Assertions.assertNotEquals(a, b);
     }
 
@@ -87,14 +87,14 @@ public class RadixCoderTest {
             "2, 30000"
     })
     void notEqualsShorts(int base1, int base2) {
-        RadixCoder a = RadixCoder.shorts(base1);
-        RadixCoder b = RadixCoder.shorts(base2);
+        RadixCoder a = RadixCoder.u16(base1);
+        RadixCoder b = RadixCoder.u16(base2);
         Assertions.assertNotEquals(a, b);
     }
 
     @Test
     void notEqualsNull() {
-        Assertions.assertNotEquals(RadixCoder.shorts(5), null);
-        Assertions.assertNotEquals(RadixCoder.bytes(5), null);
+        Assertions.assertNotEquals(RadixCoder.u16(5), null);
+        Assertions.assertNotEquals(RadixCoder.u8(5), null);
     }
 }

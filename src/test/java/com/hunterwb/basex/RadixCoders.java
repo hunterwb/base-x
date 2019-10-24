@@ -8,7 +8,7 @@ public class RadixCoders {
     private static final List<RadixCoder<byte[]>> BYTES = new ArrayList<>();
     static {
         for (int i = 2; i <= 256; i++) {
-            BYTES.add(RadixCoder.bytes(i));
+            BYTES.add(RadixCoder.u8(i));
         }
     }
 

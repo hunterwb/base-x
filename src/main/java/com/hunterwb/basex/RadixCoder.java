@@ -19,12 +19,12 @@ public abstract class RadixCoder<A> {
         decodeFactor = logBase / logByte;
     }
 
-    public static RadixCoder<byte[]> bytes(int base) {
-        return new Bytes(base);
+    public static RadixCoder<byte[]> u8(int base) {
+        return new U8(base);
     }
 
-    public static RadixCoder<short[]> shorts(int base) {
-        return new Shorts(base);
+    public static RadixCoder<short[]> u16(int base) {
+        return new U16(base);
     }
 
     public final int base() {
@@ -45,13 +45,13 @@ public abstract class RadixCoder<A> {
         return base == ((RadixCoder) obj).base;
     }
 
-    @Override final public String toString() {
+    @Override public final String toString() {
         return getClass().getName() + '(' + base + ')';
     }
 
-    static final class Bytes extends RadixCoder<byte[]> {
+    static final class U8 extends RadixCoder<byte[]> {
 
-        Bytes(int base) {
+        U8(int base) {
             super(base);
             if (base > 0x100) throw new IllegalArgumentException("base must be <= 0x100)");
         }
@@ -100,9 +100,9 @@ public abstract class RadixCoder<A> {
         }
     }
 
-    static final class Shorts extends RadixCoder<short[]> {
+    static final class U16 extends RadixCoder<short[]> {
 
-        Shorts(int base) {
+        U16(int base) {
             super(base);
             if (base > 0x10000) throw new IllegalArgumentException("base must be <= 0x10000)");
         }
@@ -153,13 +153,13 @@ public abstract class RadixCoder<A> {
 
     static int leadingZeros(byte[] a) {
         int zc = 0;
-        for (; zc < a.length && a[zc] == 0; zc++);
+        while (zc < a.length && a[zc] == 0) zc++;
         return zc;
     }
 
     static int leadingZeros(short[] a) {
         int zc = 0;
-        for (; zc < a.length && a[zc] == 0; zc++);
+        while (zc < a.length && a[zc] == 0) zc++;
         return zc;
     }
 

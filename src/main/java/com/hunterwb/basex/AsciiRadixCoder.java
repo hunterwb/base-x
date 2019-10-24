@@ -21,7 +21,7 @@ public final class AsciiRadixCoder {
             if (digits[c] != -1) throw new IllegalArgumentException("char '" + (char) c + "' is repeated in alphabet");
             digits[c] = (byte) i;
         }
-        byteCoder = RadixCoder.bytes(chars.length);
+        byteCoder = RadixCoder.u8(chars.length);
     }
 
     public static AsciiRadixCoder of(String alphabet) {
