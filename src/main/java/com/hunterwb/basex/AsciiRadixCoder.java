@@ -11,6 +11,10 @@ public final class AsciiRadixCoder {
 
     private final RadixCoder<byte[]> byteCoder;
 
+    /**
+     * @throws IllegalArgumentException if {@code alphabet} has less than {@code 2} characters, repeated characters, or
+     *         any characters which are not ASCII
+     */
     private AsciiRadixCoder(String alphabet) {
         chars = new byte[alphabet.length()];
         digits = new byte[1 << 7];
@@ -36,18 +40,22 @@ public final class AsciiRadixCoder {
         return new String(chars, 0);
     }
 
-    public String encode(byte[] src) {
-        byte[] bs = byteCoder.encode(src);
+    public String encode(byte[] bytes) {
+        byte[] bs = byteCoder.encode(bytes);
         for (int i = 0; i < bs.length; i++) {
             bs[i] = chars[bs[i]];
         }
         return new String(bs, 0);
     }
 
-    public byte[] decode(String src) {
-        byte[] bs = new byte[src.length()];
+    /**
+     * @throws IllegalArgumentException if {@code s} contains any characters which are not present in
+     *         {@link #alphabet()}
+     */
+    public byte[] decode(String s) {
+        byte[] bs = new byte[s.length()];
         for (int i = 0; i < bs.length; i++) {
-            byte c = checkAscii(src.charAt(i));
+            byte c = checkAscii(s.charAt(i));
             byte digit = digits[c];
             if (digit == -1) throw new IllegalArgumentException("char '" + (char) c + "' is not present in alphabet");
             bs[i] = digit;
