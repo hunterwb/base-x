@@ -22,7 +22,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.jupiter>5.4.0</version.jupiter>
+        <version.jupiter>5.5.2</version.jupiter>
         <version.surefire>3.0.0-M3</version.surefire>
     </properties>
 
@@ -52,7 +52,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <release>6</release>
                     <testRelease>8</testRelease>
