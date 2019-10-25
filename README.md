@@ -2,6 +2,8 @@
 
 Arbitrary base encoding & decoding
 
+Converts between binary data and bases 2 - 65,536
+
 Encodes a byte array by treating it as a single large unsigned
 integer and performing long division to convert it to its representation in the new base.
 Every leading 0 byte in the array (not significant when treated as a number)

@@ -4,6 +4,12 @@ import java.util.Arrays;
 
 public abstract class RadixCoder<N> {
 
+    public static final int BASE_MIN = 2;
+
+    public static final int BASE_MAX_U8 = 0x100;
+
+    public static final int BASE_MAX_U16 = 0x10000;
+
     protected final int base;
 
     protected final double encodeFactor;
@@ -11,23 +17,23 @@ public abstract class RadixCoder<N> {
     protected final double decodeFactor;
 
     RadixCoder(int base) {
-        if (base < 2) throw new IllegalArgumentException("base must be >= 2");
+        if (base < BASE_MIN) throw new IllegalArgumentException("base must be >= " + BASE_MIN);
         this.base = base;
         double logBase = Math.log(base);
-        double logByte = Math.log(0x100);
+        double logByte = Math.log(BASE_MAX_U8);
         encodeFactor = logByte / logBase;
         decodeFactor = logBase / logByte;
     }
 
     /**
-     * @throws IllegalArgumentException if {@code base} is less than {@code 2} or greater than {@code 0x100}
+     * @throws IllegalArgumentException if {@code base} is less than {@value #BASE_MIN} or greater than {@value #BASE_MAX_U8}
      */
     public static RadixCoder<byte[]> u8(int base) {
         return new U8(base);
     }
 
     /**
-     * @throws IllegalArgumentException if {@code base} is less than {@code 2} or greater than {@code 0x10000}
+     * @throws IllegalArgumentException if {@code base} is less than {@value #BASE_MIN} or greater than {@value #BASE_MAX_U16}
      */
     public static RadixCoder<short[]> u16(int base) {
         return new U16(base);
@@ -58,11 +64,19 @@ public abstract class RadixCoder<N> {
         return getClass().getName() + '(' + base + ')';
     }
 
+    final void checkBaseMax(int max) {
+        if (base > max) throw new IllegalArgumentException("base must be <= " + max);
+    }
+
+    final void checkDigitBase(int digit) {
+        if (digit >= base) throw new IllegalArgumentException("digit must be < " + base);
+    }
+
     static final class U8 extends RadixCoder<byte[]> {
 
         U8(int base) {
             super(base);
-            if (base > 0x100) throw new IllegalArgumentException("base must be <= 0x100)");
+            checkBaseMax(BASE_MAX_U8);
         }
 
         @Override public byte[] encode(byte[] bytes) {
@@ -94,7 +108,7 @@ public abstract class RadixCoder<N> {
             int j = capacity - 2;
             for (int i = zeroCount; i < n.length; i++) {
                 int carry = n[i] & 0xFF;
-                if (carry >= base) throw new IllegalArgumentException("elements must be < " + base);
+                checkDigitBase(carry);
                 for (int k = capacity - 1; k > j; k--) {
                     carry += (dst[k] & 0xFF) * base;
                     dst[k] = (byte) carry;
@@ -113,7 +127,7 @@ public abstract class RadixCoder<N> {
 
         U16(int base) {
             super(base);
-            if (base > 0x10000) throw new IllegalArgumentException("base must be <= 0x10000)");
+            checkBaseMax(BASE_MAX_U16);
         }
 
         @Override public short[] encode(byte[] bytes) {
@@ -145,7 +159,7 @@ public abstract class RadixCoder<N> {
             int j = capacity - 2;
             for (int i = zeroCount; i < n.length; i++) {
                 int carry = n[i] & 0xFFFF;
-                if (carry >= base) throw new IllegalArgumentException("elements must be < " + base);
+                checkDigitBase(carry);
                 for (int k = capacity - 1; k > j; k--) {
                     carry += (dst[k] & 0xFF) * base;
                     dst[k] = (byte) carry;
