@@ -7,10 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Iterator;
 import java.util.Random;
 
-public class AsciiRadixCoderTest {
+public final class AsciiRadixCoderTest {
 
     @Test
     void equality() {
@@ -19,29 +18,6 @@ public class AsciiRadixCoderTest {
                 .addEqualityGroup(AsciiRadixCoder.of("21"), AsciiRadixCoder.of("21"))
                 .addEqualityGroup(AsciiRadixCoder.of("123"), AsciiRadixCoder.of("123"))
                 .testEquals();
-    }
-
-    @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.AsciiRadixCoders#all")
-    void encodeZeros(AsciiRadixCoder coder) {
-        for (int i = 3; i <= 512; i++) {
-            byte[] dec0 = new byte[i];
-            String enc0 = coder.encode(dec0);
-            byte[] dec1 = coder.decode(enc0);
-            Assertions.assertArrayEquals(dec0, dec1);
-        }
-    }
-
-    @Test
-    void invertRandom() {
-        Random random = new Random(4);
-        for (AsciiRadixCoder coder : AsciiRadixCoders.all()) {
-            for (int i = 0; i < 10; i++) {
-                byte[] dec0 = new byte[2 + random.nextInt(500)];
-                random.nextBytes(dec0);
-                invert(coder, dec0);
-            }
-        }
     }
 
     @Test
@@ -64,71 +40,65 @@ public class AsciiRadixCoderTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> AsciiRadixCoder.of("01").decode("011100X01101"));
     }
 
-    @ParameterizedTest
-    @MethodSource("com.hunterwb.basex.AsciiRadixCoders#all")
-    void invertZero(AsciiRadixCoder coder) {
-        invert(coder, Bytes.EMPTY);
+    private void invert(AsciiRadixCoder coder, byte[] bytes) {
+        Assertions.assertArrayEquals(bytes, coder.decode(coder.encode(bytes)));
     }
 
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.AsciiRadixCoders#all")
-    void invertOne(AsciiRadixCoder coder) {
-        Iterator<byte[]> in = Bytes.allLength1();
-        while (in.hasNext()) {
-            invert(coder, in.next());
+    void invertZeroFilled(AsciiRadixCoder coder) {
+        for (int i = 0; i <= 65; i++) {
+            invert(coder, new byte[i]);
+        }
+    }
+
+    @Test
+    void invertRandom() {
+        Random r = new Random(1);
+        for (AsciiRadixCoder coder : AsciiRadixCoders.all()) {
+            for (int i = 0; i < 10; i++) {
+                invert(coder, Bytes.random(r, 2 + r.nextInt(500)));
+            }
         }
     }
 
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.AsciiRadixCoders#all")
-    void invertTwo(AsciiRadixCoder coder) {
-        Iterator<byte[]> in = Bytes.allLength2();
-        while (in.hasNext()) {
-            invert(coder, in.next());
+    void invertAllLength1(AsciiRadixCoder coder) {
+        for (byte[] b : Bytes.allLength1()) {
+            invert(coder, b);
         }
     }
 
-    @Disabled
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.AsciiRadixCoders#all")
-    void invertThree(AsciiRadixCoder coder) {
-        Iterator<byte[]> in = Bytes.allLength3();
-        while (in.hasNext()) {
-            invert(coder, in.next());
+    void invertAllLength2(AsciiRadixCoder coder) {
+        for (byte[] b : Bytes.allLength2()) {
+            invert(coder, b);
         }
-    }
-
-    private void invert(AsciiRadixCoder coder, byte[] dec0) {
-        String enc0 = coder.encode(dec0);
-        byte[] dec1 = coder.decode(enc0);
-        Assertions.assertArrayEquals(dec0, dec1);
     }
 
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.AsciiRadixCoders#ascii36")
     void jdkOne(AsciiRadixCoder coder) {
-        Iterator<byte[]> in = Bytes.allLength1();
-        while (in.hasNext()) {
-            byte[] dec0 = in.next();
-            String enc0 = coder.encode(dec0);
-            Assertions.assertEquals(Integer.toString(dec0[0] & 0xFF, coder.base()), enc0);
+        for (byte[] b : Bytes.allLength1()) {
+            String enc0 = coder.encode(b);
+            Assertions.assertEquals(Integer.toString(b[0] & 0xFF, coder.base()), enc0);
             byte[] dec1 = coder.decode(enc0);
-            Assertions.assertArrayEquals(dec0, dec1);
+            Assertions.assertArrayEquals(b, dec1);
         }
     }
 
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.AsciiRadixCoders#ascii36")
     void jdkTwo(AsciiRadixCoder coder) {
-        Iterator<byte[]> in = Bytes.allLength2();
-        while (in.hasNext()) {
-            byte[] dec0 = in.next();
-            if (dec0[0] == 0) continue;
-            int asInt = ((dec0[0] & 0xFF) << 8) | (dec0[1] & 0xFF);
-            String enc0 = coder.encode(dec0);
+        for (byte[] b : Bytes.allLength2()) {
+            if (b[0] == 0) continue;
+            int asInt = ((b[0] & 0xFF) << 8) | (b[1] & 0xFF);
+            String enc0 = coder.encode(b);
             Assertions.assertEquals(Integer.toString(asInt, coder.base()), enc0);
             byte[] dec1 = coder.decode(enc0);
-            Assertions.assertArrayEquals(dec0, dec1);
+            Assertions.assertArrayEquals(b, dec1);
         }
     }
 
@@ -136,15 +106,13 @@ public class AsciiRadixCoderTest {
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.AsciiRadixCoders#ascii36")
     void jdkThree(AsciiRadixCoder coder) {
-        Iterator<byte[]> in = Bytes.allLength3();
-        while (in.hasNext()) {
-            byte[] dec0 = in.next();
-            if (dec0[0] == 0) continue;
-            int asInt = ((dec0[0] & 0xFF) << 16) | ((dec0[1] & 0xFF) << 8) | (dec0[2] & 0xFF);
-            String enc0 = coder.encode(dec0);
+        for (byte[] b : Bytes.allLength3()) {
+            if (b[0] == 0) continue;
+            int asInt = ((b[0] & 0xFF) << 16) | ((b[1] & 0xFF) << 8) | (b[2] & 0xFF);
+            String enc0 = coder.encode(b);
             Assertions.assertEquals(Integer.toString(asInt, coder.base()), enc0);
             byte[] dec1 = coder.decode(enc0);
-            Assertions.assertArrayEquals(dec0, dec1);
+            Assertions.assertArrayEquals(b, dec1);
         }
     }
 }

@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
-public class AsciiRadixCoders {
+public final class AsciiRadixCoders {
 
-    private static final List<AsciiRadixCoder> ASCII36_CODERS = new ArrayList<AsciiRadixCoder>();
+    private static final List<AsciiRadixCoder> ASCII36 = new ArrayList<AsciiRadixCoder>();
     static {
         String table = "0123456789abcdefghijklmnopqrstuvwxyz";
         for (int i = 2; i <= table.length(); i++) {
-            ASCII36_CODERS.add(AsciiRadixCoder.of(table.substring(0, i)));
+            ASCII36.add(AsciiRadixCoder.of(table.substring(0, i)));
         }
     }
 
     public static List<AsciiRadixCoder> ascii36() {
-        return ASCII36_CODERS;
+        return ASCII36;
     }
 
     public static AsciiRadixCoder withBase(int base) {
