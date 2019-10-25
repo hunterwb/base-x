@@ -2,6 +2,9 @@ package com.hunterwb.basex;
 
 import java.util.Arrays;
 
+/**
+ * @param <N> the primitive array type used to represent numbers
+ */
 public abstract class RadixCoder<N> {
 
     public static final int BASE_MIN = 2;
@@ -26,6 +29,13 @@ public abstract class RadixCoder<N> {
     }
 
     /**
+     * Returns a {@code RadixCoder} for the given base.
+     * It can convert between {@code byte} data and numbers represented as {@code byte} arrays.
+     * Each digit of the number corresponds to an element of the array seen as an 8-bit unsigned integer.
+     * Each digit must be less than {@code base}.
+     *
+     * @param base the base
+     * @return a {@code RadixCoder<byte[]>} for the given base
      * @throws IllegalArgumentException if {@code base} is less than {@value #BASE_MIN} or greater than {@value #BASE_MAX_U8}
      */
     public static RadixCoder<byte[]> u8(int base) {
@@ -33,20 +43,44 @@ public abstract class RadixCoder<N> {
     }
 
     /**
+     * Returns a {@code RadixCoder} for the given base.
+     * It can convert between {@code byte} data and numbers represented as {@code short} arrays.
+     * Each digit of the number corresponds to an element of the array seen as a 16-bit unsigned integer.
+     * Each digit must be less than {@code base}.
+     *
+     * @param base the base
+     * @return a {@code RadixCoder<short[]>} for the given base
      * @throws IllegalArgumentException if {@code base} is less than {@value #BASE_MIN} or greater than {@value #BASE_MAX_U16}
      */
     public static RadixCoder<short[]> u16(int base) {
         return new U16(base);
     }
 
+    /**
+     * The base. This {@code RadixCoder} can convert between {@code byte} data and numbers with this base.
+     *
+     * @return the base
+     */
     public final int base() {
         return base;
     }
 
+    /**
+     * Encodes bytes into a number.
+     *
+     * @param bytes bytes
+     * @return a number encoded from {@code bytes}
+     * @throws NullPointerException if {@code bytes} is {@code null}
+     */
     public abstract N encode(byte[] bytes);
 
     /**
+     * Decodes a number into bytes.
+     *
+     * @param n a number
+     * @return bytes decoded from {@code n}
      * @throws IllegalArgumentException if {@code n} contains any digits greater than or equal to {@link #base()}
+     * @throws NullPointerException if {@code n} is {@code null}
      */
     public abstract byte[] decode(N n);
 

@@ -1,8 +1,8 @@
 # base-x [![](https://jitpack.io/v/com.hunterwb/base-x.svg)](https://jitpack.io/#com.hunterwb/base-x) [![](https://jitci.com/gh/hunterwb/base-x/svg)](https://jitci.com/gh/hunterwb/base-x)
 
-Arbitrary base encoding & decoding
+Arbitrary base encoding & decoding. Converts between binary data and bases 2 - 65,536
 
-Converts between binary data and bases 2 - 65,536
+Java 6+
 
 Encodes a byte array by treating it as a single large unsigned
 integer and performing long division to convert it to its representation in the new base.
