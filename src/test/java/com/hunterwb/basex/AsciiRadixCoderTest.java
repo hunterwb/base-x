@@ -1,17 +1,25 @@
 package com.hunterwb.basex;
 
+import com.google.common.testing.EqualsTester;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Iterator;
 import java.util.Random;
 
 public class AsciiRadixCoderTest {
+
+    @Test
+    void equality() {
+        new EqualsTester()
+                .addEqualityGroup(AsciiRadixCoder.of("12"), AsciiRadixCoder.of("12"))
+                .addEqualityGroup(AsciiRadixCoder.of("21"), AsciiRadixCoder.of("21"))
+                .addEqualityGroup(AsciiRadixCoder.of("123"), AsciiRadixCoder.of("123"))
+                .testEquals();
+    }
 
     @ParameterizedTest
     @MethodSource("com.hunterwb.basex.AsciiRadixCoders#all")
@@ -22,28 +30,6 @@ public class AsciiRadixCoderTest {
             byte[] dec1 = coder.decode(enc0);
             Assertions.assertArrayEquals(dec0, dec1);
         }
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"01","012","0123","ABC","0123456789"})
-    void equals(String table) {
-        AsciiRadixCoder a = AsciiRadixCoder.of(table);
-        AsciiRadixCoder b = AsciiRadixCoder.of(table);
-        Assertions.assertEquals(a, b);
-        Assertions.assertEquals(a.hashCode(), b.hashCode());
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-            "01, 012",
-            "012, 0123",
-            "ABC, 012",
-            "01, 10"
-    })
-    void notEquals(String table1, String table2) {
-        AsciiRadixCoder a = AsciiRadixCoder.of(table1);
-        AsciiRadixCoder b = AsciiRadixCoder.of(table2);
-        Assertions.assertNotEquals(a, b);
     }
 
     @Test

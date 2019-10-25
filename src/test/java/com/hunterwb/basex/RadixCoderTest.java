@@ -1,13 +1,22 @@
 package com.hunterwb.basex;
 
+import com.google.common.testing.EqualsTester;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 public class RadixCoderTest {
+
+    @Test
+    void equality() {
+        new EqualsTester()
+                .addEqualityGroup(RadixCoder.u8(2), RadixCoder.u8(2))
+                .addEqualityGroup(RadixCoder.u8(100), RadixCoder.u8(100))
+                .addEqualityGroup(RadixCoder.u16(2), RadixCoder.u16(2))
+                .addEqualityGroup(RadixCoder.u16(10000), RadixCoder.u16(10000))
+                .testEquals();
+    }
 
     @Test
     void zeroConstructor() {
@@ -44,57 +53,5 @@ public class RadixCoderTest {
             byte[] dec1 = coder.decode(enc0);
             Assertions.assertArrayEquals(dec0, dec1);
         }
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {2, 3, 200, 255})
-    void equalsBytes(int base) {
-        RadixCoder a = RadixCoder.u8(base);
-        Assertions.assertEquals(a, a);
-        RadixCoder b = RadixCoder.u8(base);
-        Assertions.assertEquals(a, b);
-        Assertions.assertEquals(a.hashCode(), b.hashCode());
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {2, 3, 2000, 50000})
-    void equalsShorts(int base) {
-        RadixCoder a = RadixCoder.u16(base);
-        Assertions.assertEquals(a, a);
-        RadixCoder b = RadixCoder.u16(base);
-        Assertions.assertEquals(a, b);
-        Assertions.assertEquals(a.hashCode(), b.hashCode());
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-            "2, 3",
-            "50, 100",
-            "71, 72",
-            "2, 254"
-    })
-    void notEqualsBytes(int base1, int base2) {
-        RadixCoder a = RadixCoder.u8(base1);
-        RadixCoder b = RadixCoder.u8(base2);
-        Assertions.assertNotEquals(a, b);
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-            "2, 3",
-            "50, 100",
-            "2121, 2122",
-            "2, 30000"
-    })
-    void notEqualsShorts(int base1, int base2) {
-        RadixCoder a = RadixCoder.u16(base1);
-        RadixCoder b = RadixCoder.u16(base2);
-        Assertions.assertNotEquals(a, b);
-    }
-
-    @Test
-    void notEqualsNull() {
-        Assertions.assertNotEquals(RadixCoder.u16(5), null);
-        Assertions.assertNotEquals(RadixCoder.u8(5), null);
     }
 }
